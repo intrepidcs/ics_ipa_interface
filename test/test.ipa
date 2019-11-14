@@ -1,0 +1,20 @@
+{
+    "data_files" : [
+        {
+            "path": "datafile1",
+            "vehicleId" : 1234
+        },
+        {
+            "path": "datafile2"
+        }
+    ],
+    "config_files" : [
+        {
+            "path": "config1"
+        },
+        {
+            "path": "config2"
+        }
+    ],
+    "output_dir": "outputDir"
+}
