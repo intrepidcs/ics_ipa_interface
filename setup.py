@@ -1,10 +1,8 @@
 from setuptools import setup
-import os
-import pathlib
 
 VERSION = '1.0.0'
 
-with open(os.path.json(pathlib.Path(__file__).parent, "README.md"), "r") as fh:
+with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
