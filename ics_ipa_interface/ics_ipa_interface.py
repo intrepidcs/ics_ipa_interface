@@ -31,7 +31,7 @@ def get_data_files() -> [str]:
     desktop_options['title'] = 'Select list of input data files and click open.'
     desktop_options['defaultextension'] = '.db'
     get_data_files.data_files = __raise_if_none(__to_array_of_paths(
-        __get_files('data_files', desktop_options)))
+        __get_files('data_files', desktop_options)), 'data_files')
     return get_data_files.data_files
 
 
@@ -50,7 +50,7 @@ def get_config_files() -> [str]:
                                     ("Aliased Signal Lookup files", "*.asl"), ("All files", "*.*")]
     desktop_options['title'] = "Select script config file (*.als) and click open."
     get_config_files.config_files = __raise_if_none(__to_array_of_paths(
-        __get_files('config_files', desktop_options)))
+        __get_files('config_files', desktop_options)), 'config_files')
     return get_config_files.config_files
 
 
@@ -65,7 +65,7 @@ def get_output_dir() -> str:
     if hasattr(get_output_dir, "output_dir"):
         return get_output_dir.output_dir
     desktop_options = {}
-    get_output_dir.output_dir = __raise_if_none(__get_directory('output_dir', desktop_options))
+    get_output_dir.output_dir = __raise_if_none(__get_directory('output_dir', desktop_options), 'output_dir')
     return get_output_dir.output_dir
 
 
@@ -152,6 +152,7 @@ def __raise_if_none(argument, name: str):
     if argument is None:
         raise TypeError(
             "the {name} argument is not included in IPA_FILE".format(name=name))
+    return argument
 
 
 def __is_using_ipa_file():
