@@ -11,7 +11,7 @@ def ipa_init(script_name: str = 'script.py', version: str = '1.0', message: str 
     * Note ipa_init function must be called before any other ipa function for the change to
     * take affect
     '''
-    __read_args(script_name, version, message) 
+    __read_args(script_name, version, message)
 
 
 def get_data_files() -> [str]:
@@ -30,7 +30,8 @@ def get_data_files() -> [str]:
         ("Data files", "*.dat *.log *.mdf *.mf4 *.db"), ('all files', '.*')]
     desktop_options['title'] = 'Select list of input data files and click open.'
     desktop_options['defaultextension'] = '.db'
-    get_data_files.data_files = __to_array_of_paths(__get_files('data_files', desktop_options))
+    get_data_files.data_files = __raise_if_none(__to_array_of_paths(
+        __get_files('data_files', desktop_options)))
     return get_data_files.data_files
 
 
@@ -48,7 +49,8 @@ def get_config_files() -> [str]:
     desktop_options['filetypes'] = [("Lookup files", "*.sl *.asl"), ("Signal Lookup files", "*.sl"),
                                     ("Aliased Signal Lookup files", "*.asl"), ("All files", "*.*")]
     desktop_options['title'] = "Select script config file (*.als) and click open."
-    get_config_files.config_files = __to_array_of_paths(__get_files('config_files', desktop_options))
+    get_config_files.config_files = __raise_if_none(__to_array_of_paths(
+        __get_files('config_files', desktop_options)))
     return get_config_files.config_files
 
 
@@ -63,7 +65,7 @@ def get_output_dir() -> str:
     if hasattr(get_output_dir, "output_dir"):
         return get_output_dir.output_dir
     desktop_options = {}
-    get_output_dir.output_dir = __get_dir('output_dir', desktop_options)
+    get_output_dir.output_dir = __raise_if_none(__get_directory('output_dir', desktop_options))
     return get_output_dir.output_dir
 
 
@@ -95,10 +97,13 @@ def get_data_attribute_from_ipa_file(data_file_path: str, attribute: str):
     ipa_file = __get_ipa_file()
     if ipa_file is None:
         return None
-    path = filter(lambda file: file['path'] ==
-                  data_file_path, ipa_file['data_files'])
-    if attribute in path:
-        return path[attribute]
+
+    for file in ipa_file['data_files']:
+        if file['path'] == data_file_path:
+            if attribute in file:
+                return file[attribute]
+            else:
+                return None
     else:
         return None
 
@@ -143,8 +148,23 @@ def __is_list_of_strings(argument):
     return all(isinstance(item, str) for item in argument)
 
 
+def __raise_if_none(argument, name: str):
+    if argument is None:
+        raise TypeError(
+            "the {name} argument is not included in IPA_FILE".format(name=name))
+
+
 def __is_using_ipa_file():
-    return __read_args()['<IPA_FILE>'] is not None
+    file = __read_args()['<IPA_FILE>']
+    return type(file) is str and file != ''
+
+
+def __is_using_comandline_args():
+    return __read_args()['--output_dir'] is not None
+
+
+def __is_using_display_args():
+    return not __is_using_ipa_file() and not __is_using_comandline_args()
 
 
 def __get_args():
@@ -157,14 +177,16 @@ def __get_args():
 
 def __get_files(file_arg, desktop_options):
     args = __get_args()
-    if not __is_using_ipa_file():
+    files = None
+    if __is_using_comandline_args():
         file_arg = '--' + file_arg
-    if file_arg in args:
-        files = __listafy(args[file_arg])
+        if file_arg in args:
+            files = __listafy(args[file_arg])
         return files
     elif __is_using_ipa_file():
-        raise TypeError(
-            "the {files} argument is not included in IPA_FILE".format(files=file_arg))
+        if file_arg in args:
+            files = __listafy(args[file_arg])
+        return files
     else:
         mtk = None
         mtk_filedialog = None
@@ -181,19 +203,24 @@ def __get_files(file_arg, desktop_options):
         return list(mtk_filedialog.askopenfilenames(**desktop_options))
 
 
-def __get_dir(dir_arg, desktop_options):
+def __get_directory(dir_arg, desktop_options):
     args = __get_args()
-    if not __is_using_ipa_file():
+    directory = None
+    if __is_using_comandline_args():
         dir_arg = '--' + dir_arg
-    if dir_arg in args:
-        if __is_strings(args[dir_arg]):
+        if dir_arg in args and __is_strings(args[dir_arg]):
             return args[dir_arg]
         else:
             raise TypeError(
                 "the {dir_arg} argument is invalid".format(dir_arg=dir_arg))
     elif __is_using_ipa_file():
-        raise TypeError(
-            "the {dir_arg} argument is not included in IPA_FILE".format(dir_arg=dir_arg))
+        if dir_arg in args:
+            if __is_strings(args[dir_arg]):
+                directory = args[dir_arg]
+            else:
+                raise TypeError(
+                    "the {dir_arg} argument is invalid".format(dir_arg=dir_arg))
+        return directory
     else:
         mtk = None
         mtk_filedialog = None
