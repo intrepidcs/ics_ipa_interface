@@ -1,0 +1,84 @@
+{
+	// Use IntelliSense to learn about possible attributes.
+	// Hover to view descriptions of existing attributes.
+	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+	"version": "0.2.0",
+	"configurations": [		
+		{
+			"name": "Python: Test Help",
+			"type": "python",
+			"request": "launch",
+			"program": "${workspaceFolder}/test/test.py",
+			"args": ["-h"],
+			"console": "integratedTerminal"
+		},
+		{
+			"name": "Python: Test Args",
+			"type": "python",
+			"request": "launch",
+			"program": "${workspaceFolder}/test/test.py",
+			"args": ["-d", "path/to/data_file1", 
+				"-d", "path/to/data_file2", 
+				"-c", "path/to/config1", 
+				"-c", "path/to/config2",
+				"-p", "optional_path/to/previous_output_dir",
+				"-o", "path/to/output_dir"
+			],
+			"console": "integratedTerminal"
+		},
+		{
+			"name": "Python: Test Args2",
+			"type": "python",
+			"request": "launch",
+			"program": "${workspaceFolder}/test/test.py",
+			"args": ["-d", "path/to/data_file1", 
+				"-d", "path/to/data_file2", 
+				"-c", "path/to/config1", 
+				"-c", "path/to/config2",
+				"-o", "path/to/output_dir"
+			],
+			"console": "integratedTerminal"
+		},
+		{
+			"name": "Python: Test Args3 required only ",
+			"type": "python",
+			"request": "launch",
+			"program": "${workspaceFolder}/test/test.py",
+			"args": [
+				"-o", "path/to/output_dir"
+			],
+			"console": "integratedTerminal"
+		},
+		{
+			"name": "Python: Test IPA File",
+			"type": "python",
+			"request": "launch",
+			"program": "${workspaceFolder}/test/test.py",
+			"args": ["${workspaceFolder}/test/test.ipa"],
+			"console": "integratedTerminal"
+		},
+		{
+			"name": "Python: Test Desktop1",
+			"type": "python",
+			"request": "launch",
+			"program": "${workspaceFolder}/test/test.py",
+			"args": [""],
+			"console": "integratedTerminal"
+		},
+		{
+			"name": "Python: Test Desktop2",
+			"type": "python",
+			"request": "launch",
+			"program": "${workspaceFolder}/test/test.py",
+			"args": [],
+			"console": "integratedTerminal"
+		},
+		{
+			"name": "Python: Test Desktop3",
+			"type": "python",
+			"request": "launch",
+			"program": "${workspaceFolder}/test/test.py",
+			"console": "integratedTerminal"
+		},
+	]
+}

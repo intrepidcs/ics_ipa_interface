@@ -69,6 +69,21 @@ def get_output_dir() -> str:
     return get_output_dir.output_dir
 
 
+def get_previous_dir() -> str:
+    '''
+    * The previous_dir function returns the previous runs output directory.
+
+    * Note: If you are in desktop mode this function will display a the
+    * directory dialog the first time it's called. After being called
+    * a cached version of the results will be returned from then on.
+    '''
+    if hasattr(get_output_dir, "previous_dir"):
+        return get_output_dir.output_dir
+    desktop_options = {}
+    get_output_dir.output_dir = __get_directory('previous_dir', desktop_options)
+    return get_output_dir.output_dir
+
+
 def update_progress(name: str = 'Master', percent: float = None, message: str = None) -> None:
     # pylint: disable=unused-argument
     '''
@@ -89,7 +104,7 @@ def using_ipa_file() -> bool:
     return __is_using_ipa_file()
 
 
-def get_data_attribute_from_ipa_file(data_file_path: str, attribute: str):
+def get_attribute_from_file(path: str, attribute: str):
     '''
     get attributes passed alongside the file path
     if attribute is not passed None is returned
@@ -98,8 +113,8 @@ def get_data_attribute_from_ipa_file(data_file_path: str, attribute: str):
     if ipa_file is None:
         return None
 
-    for file in ipa_file['data_files']:
-        if file['path'] == data_file_path:
+    for file in ipa_file['data_files'] + ipa_file['config_files']:
+        if file['path'] == path:
             if attribute in file:
                 return file[attribute]
             else:
@@ -115,7 +130,7 @@ def __read_args(script_name='script.py', version='1.0', message=''):
 Usage:
   {scriptPy}
   {scriptPy} <IPA_FILE>
-  {scriptPy} [--data_files=<FILE>]... [--config_files=<FILE>]... --output_dir=<FILE>
+  {scriptPy} [--data_files=<FILE>]... [--config_files=<FILE>]... [--previous_dir=<DIR>] --output_dir=<DIR>
   {scriptPy} (-h | --help)
   {scriptPy} --version
 
@@ -124,7 +139,8 @@ Options:
   --version     Show version.
   -d FILE --data_files=<FILE>   The data files that are used.
   -c FILE --config_files=<FILE> The config files that are used.
-  -o FILE --output_dir=<FILE>   The output directory. This is required if the script output directory.
+  -o DIR --output_dir=<DIR>   The output directory. This is required if the script output directory.
+  -p DIR --previous_dir=<DIR>   The previous run output directory. This is used if you want to use the results of the previous run as an input.
 '''
         __read_args.args = docopt(args.format(
             scriptPy=script_name, message=message), version=version)
@@ -210,10 +226,8 @@ def __get_directory(dir_arg, desktop_options):
     if __is_using_comandline_args():
         dir_arg = '--' + dir_arg
         if dir_arg in args and __is_strings(args[dir_arg]):
-            return args[dir_arg]
-        else:
-            raise TypeError(
-                "the {dir_arg} argument is invalid".format(dir_arg=dir_arg))
+            directory = args[dir_arg]
+        return directory
     elif __is_using_ipa_file():
         if dir_arg in args:
             if __is_strings(args[dir_arg]):
