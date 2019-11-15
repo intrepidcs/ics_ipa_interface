@@ -1,10 +1,11 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
-VERSION = '1.0.4'
+VERSION = '1.0.5'
 
 setup(
-    name='ics_ipa_interface',
-    packages=['ics_ipa_interface'],
+    name='ics-ipa-interface',
+    namespace_packages=['intrepidcs'],
+    packages=find_packages(),
     version=VERSION,
     description='API used to to allow users to make scripts that work local'
                 ' and on wivi server',
@@ -17,6 +18,9 @@ setup(
                  VERSION + '.tar.gz',
     classifiers=['Operating System :: Microsoft :: Windows',
                  'Operating System :: Unix',
-                 'Programming Language :: Python :: 3.6']
+                 'Programming Language :: Python :: 3.6'],
+    install_requires=[
+        'docopt', 'importlib',
+    ],
 )
 

@@ -7,13 +7,13 @@ This repo gives users the tools to be able to run scripts as a ipa job and deskt
 To install simply run the following command
 
 ```sh
-pip install ics_ipa_interface
+pip install ics-ipa-interface
 ```
 
 ## Example
 
 ```python
-import ics_ipa_interface as ipa
+from intrepidcs import ipa_interface as ipa
 
 
 if __name__ == "__main__":

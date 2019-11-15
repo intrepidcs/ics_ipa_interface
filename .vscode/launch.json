@@ -3,13 +3,22 @@
 	// Hover to view descriptions of existing attributes.
 	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
 	"version": "0.2.0",
-	"configurations": [		
+	"configurations": [
+		{
+			"name": "Python: Current File",
+			"type": "python",
+			"request": "launch",
+			"program": "${file}",
+			"console": "integratedTerminal"
+		},
 		{
 			"name": "Python: Test Help",
 			"type": "python",
 			"request": "launch",
 			"program": "${workspaceFolder}/test/test.py",
-			"args": ["-h"],
+			"args": [
+				"-h"
+			],
 			"console": "integratedTerminal"
 		},
 		{
@@ -17,12 +26,19 @@
 			"type": "python",
 			"request": "launch",
 			"program": "${workspaceFolder}/test/test.py",
-			"args": ["-d", "path/to/data_file1", 
-				"-d", "path/to/data_file2", 
-				"-c", "path/to/config1", 
-				"-c", "path/to/config2",
-				"-p", "optional_path/to/previous_output_dir",
-				"-o", "path/to/output_dir"
+			"args": [
+				"-d",
+				"path/to/data_file1",
+				"-d",
+				"path/to/data_file2",
+				"-c",
+				"path/to/config1",
+				"-c",
+				"path/to/config2",
+				"-p",
+				"optional_path/to/previous_output_dir",
+				"-o",
+				"path/to/output_dir"
 			],
 			"console": "integratedTerminal"
 		},
@@ -31,11 +47,17 @@
 			"type": "python",
 			"request": "launch",
 			"program": "${workspaceFolder}/test/test.py",
-			"args": ["-d", "path/to/data_file1", 
-				"-d", "path/to/data_file2", 
-				"-c", "path/to/config1", 
-				"-c", "path/to/config2",
-				"-o", "path/to/output_dir"
+			"args": [
+				"-d",
+				"path/to/data_file1",
+				"-d",
+				"path/to/data_file2",
+				"-c",
+				"path/to/config1",
+				"-c",
+				"path/to/config2",
+				"-o",
+				"path/to/output_dir"
 			],
 			"console": "integratedTerminal"
 		},
@@ -45,7 +67,8 @@
 			"request": "launch",
 			"program": "${workspaceFolder}/test/test.py",
 			"args": [
-				"-o", "path/to/output_dir"
+				"-o",
+				"path/to/output_dir"
 			],
 			"console": "integratedTerminal"
 		},
@@ -54,7 +77,9 @@
 			"type": "python",
 			"request": "launch",
 			"program": "${workspaceFolder}/test/test.py",
-			"args": ["${workspaceFolder}/test/test.ipa"],
+			"args": [
+				"${workspaceFolder}/test/test.ipa"
+			],
 			"console": "integratedTerminal"
 		},
 		{
@@ -62,7 +87,9 @@
 			"type": "python",
 			"request": "launch",
 			"program": "${workspaceFolder}/test/test.py",
-			"args": [""],
+			"args": [
+				""
+			],
 			"console": "integratedTerminal"
 		},
 		{

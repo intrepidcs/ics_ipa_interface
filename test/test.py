@@ -1,4 +1,4 @@
-import ics_ipa_interface as ipa
+from intrepidcs import ipa_interface as ipa
 
 if __name__ == '__main__':
     # setup the help dialog for the script
