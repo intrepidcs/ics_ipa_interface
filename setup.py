@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION = '1.0.5'
+VERSION = '1.0.6'
 
 setup(
     name='ics-ipa-interface',
@@ -20,7 +20,7 @@ setup(
                  'Operating System :: Unix',
                  'Programming Language :: Python :: 3.6'],
     install_requires=[
-        'docopt', 'importlib',
+        'docopt',
     ],
 )
 
